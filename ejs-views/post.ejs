@@ -5,7 +5,10 @@
         <%- include('./partials/nav.ejs') %>
         <article>
             <div class="info">
-                <span><%= post.date || 'No date' %></span>
+                <span
+                    ><%= post.createdAt.toLocaleDateString() || 'No date'
+                    %></span
+                >
                 <span><%= post.author %></span>
             </div>
             <h1><%= post.title %></h1>
