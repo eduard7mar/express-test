@@ -1,8 +1,10 @@
 const express = require("express");
-const morgan = require("morgan");
+const morgan = require("morgan"); //display information about each request in the console
 const mongoose = require("mongoose");
+require('dotenv').config(); //allows to store confidential data
 const methodOverride = require("method-override");
 const postRoutes = require("./routes/post-routes");
+const postApiRoutes = require("./routes/api-post-routes");
 const contactRoutes = require("./routes/contact-routes");
 const createPath = require("./helpers/create-path");
 
@@ -10,17 +12,13 @@ const app = express();
 
 app.set("view engine", "ejs");
 
-const PORT = 3000;
-const db =
-  "mongodb+srv://07021997e:Pass321@cluster0.2jysep6.mongodb.net/node-block?retryWrites=true&w=majority";
-
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((res) => console.log("Connected to DB"))
   .catch((error) => console.log(error));
 
-app.listen(PORT, (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+  error ? console.log(error) : console.log(`listening port ${process.env.PORT}`);
 });
 
 app.use(express.urlencoded({ extended: false }));
@@ -40,6 +38,7 @@ app.get("/", (req, res) => {
 
 app.use(postRoutes);
 app.use(contactRoutes);
+app.use(postApiRoutes);
 
 app.use((req, res) => {
   const title = "Error Page";
