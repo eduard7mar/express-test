@@ -13,7 +13,7 @@ const app = express();
 app.set("view engine", "ejs");
 
 mongoose
-  .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URL)
   .then((res) => console.log("Connected to DB"))
   .catch((error) => console.log(error));
 
